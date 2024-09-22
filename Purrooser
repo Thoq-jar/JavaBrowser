@@ -25,6 +25,6 @@ fi
 
 echo "[UPDATE SERVICE] Done!"
 echo "[INFO] Starting"
-./mvnw javafx:run > /dev/null 2>&1
+./mvnw javafx:run
 echo "[INFO] Exiting"
 exit 0
