@@ -22,8 +22,10 @@ public class Controller {
 
   @FXML
   public void initialize() {
+
     engine = webView.getEngine();
-    engine.setUserAgent("Mozilla/5.0 {Purrooser Browser: 0.1.0; Java 22; https://github.com/Thoq-jar/Purrooser.git} (Windows NT 10.0; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0");
+    engine.setUserAgent(headers("User-Agent"));
+    engine.setJavaScriptEnabled(Boolean.parseBoolean(headers("SetJavaScriptEnabled")));
 
     welcomeScreen();
     addHoverEffect(reloadButton);
@@ -34,6 +36,17 @@ public class Controller {
       else if (newState == javafx.concurrent.Worker.State.SUCCEEDED) setReloadButtonToReload();
     });
   }
+
+  public String headers(String header) {
+    String[] headers = {
+        "User-Agent", "Mozilla/5.0 {Purrooser Browser: 0.1.0; Java 22; https://github.com/Thoq-jar/Purrooser.git} (Windows NT 10.0; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",
+        "SetJavaScriptEnabled", String.valueOf(true)
+    };
+
+    for (int i = 0; i < headers.length; i += 2) if (headers[i].equalsIgnoreCase(header)) return headers[i + 1].trim();
+    return "";
+  }
+
 
   private void welcomeScreen() {
     try {
