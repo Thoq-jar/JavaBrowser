@@ -8,20 +8,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.net.URL;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class Controller {
   @FXML
-  @Getter
-  @Setter
   private WebView webView;
   private WebEngine engine;
 
-  @Setter
   @FXML
   private Button reloadButton;
 
