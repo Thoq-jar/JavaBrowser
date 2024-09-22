@@ -1,0 +1,30 @@
+#!/bin/bash
+
+echo "[INFO] Welcome to Purrooser"
+
+DIR="$HOME/.purrooser"
+REPO_URL="https://github.com/Thoq-jar/Purrooser.git"
+
+if [ ! -d "$DIR" ]; then
+    git clone "$REPO_URL" "$DIR" > /dev/null 2>&1
+else
+    cd "$DIR" || exit
+    echo "[UPDATE SERVICE] Updating to latest version..."
+    git pull > /dev/null 2>&1
+fi
+
+if ! command -v java &> /dev/null; then
+    echo "Java is not installed. Please install Java to continue!"
+    exit 1
+fi
+
+if ! command -v mvn &> /dev/null; then
+    echo "Maven is not installed. Please install Maven to continue!"
+    exit 1
+fi
+
+echo "[UPDATE SERVICE] Done!"
+echo "[INFO] Starting"
+./mvnw javafx:run > /dev/null 2>&1
+echo "[INFO] Exiting"
+exit 0
