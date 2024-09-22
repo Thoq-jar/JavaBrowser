@@ -1,0 +1,77 @@
+html, body {
+  background: #202124;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, "Segoe UI", sans-serif;
+  height: 100%;
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.title {
+  font-size: 75px;
+  font-weight: 300;
+}
+
+.search-container {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10%;
+}
+
+input[type="text"] {
+  width: 500px;
+  padding: 15px;
+  border: 1px #777 solid;
+  border-radius: 30px 0 0 30px;
+  background-color: #202124;
+  color: white;
+  font-family: inherit;
+  font-size: 20px;
+  transition: width 2s ease, background-color 0.3s ease;
+}
+
+input[type="text"]:hover {
+  background-color: #303030;
+}
+
+input[type="text"]:focus {
+  width: 600px;
+  outline: none;
+}
+
+.go {
+  border: 1px #777 solid;
+  background-color: #202124;
+  color: white;
+}
+
+.go:hover {
+  background-color: #303030;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 0 30px 30px 0;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.3s ease;
+}
