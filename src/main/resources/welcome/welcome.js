@@ -1,3 +1,5 @@
+import '../lib/std.js';
+
 const sysLinks = [
     'about',
     'game',

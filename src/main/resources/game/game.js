@@ -1,7 +1,9 @@
+import '../lib/std.js';
+
 $(document).ready(function () {
     let score = 0;
     let isJumping = false;
-    let obstacleSpeed = 10;
+    let obstacleSpeed = 5;
     let gameInterval;
     let gameOver = false;
 
@@ -16,9 +18,16 @@ $(document).ready(function () {
         $obstacle.css('right', '-40px');
         score = 0;
         $score.text(score);
-        obstacleSpeed = 5;
+        obstacleSpeed = 10;
         $gameOver.hide();
-        gameInterval = setInterval(moveObstacle, 3);
+        gameLoop();
+    }
+
+    function gameLoop() {
+        if (!gameOver) {
+            moveObstacle();
+            requestAnimationFrame(gameLoop);
+        }
     }
 
     function moveObstacle() {
@@ -40,7 +49,7 @@ $(document).ready(function () {
     }
 
     function increaseDifficulty() {
-        if (score % 5 === 0) obstacleSpeed += 0.5;
+        if (score % 1 === 0) obstacleSpeed += 1;
     }
 
     function collision() {
@@ -58,8 +67,8 @@ $(document).ready(function () {
     function jump() {
         if (!isJumping && !gameOver) {
             isJumping = true;
-            $cat.animate({bottom: '+=200px'}, 500, function () {
-                $cat.animate({bottom: '-=200px'}, 500, function () {
+            $cat.animate({bottom: '+=400px'}, 300, function () {
+                $cat.animate({bottom: '-=400px'}, 300, function () {
                     isJumping = false;
                 });
             });
