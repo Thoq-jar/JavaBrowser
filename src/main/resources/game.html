@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Kitty Game</title>
+    <link rel="stylesheet" href="lib/std.css">
     <link rel="stylesheet" href="game/game.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="game/game.js"></script>
+    <script src="game/game.js" type="module"></script>
 </head>
 <body>
 <div class="game-container">
     <div class="cat"></div>
     <div class="obstacle"></div>
-    <div class="score">Score: <span id="score">0</span></div>
-    <div class="game-over" style="display: none;">Game Over! Your score: <span id="final-score">0</span></div>
+
+    <div class="score">
+        <span>Score: </span>
+        <span id="score">0</span>
+    </div>
+
+    <div class="game-over">
+        <span>Game Over! Your score:</span>
+        <span id="final-score">0</span>
+    </div>
 </div>
 </body>
 </html>

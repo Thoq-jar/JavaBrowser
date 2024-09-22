@@ -1,0 +1,13 @@
+html, body {
+  background-color: #202124;
+  color: #fff;
+  font-family: -apple-system, "Segoe UI", sans-serif;
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+}

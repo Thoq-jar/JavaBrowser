@@ -4,6 +4,9 @@ import dev.thoq.purrooser.util.Handling;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -12,14 +15,14 @@ import javafx.util.Duration;
 
 import java.net.URL;
 
-@SuppressWarnings("CallToPrintStackTrace")
+@SuppressWarnings({"CallToPrintStackTrace", "SameParameterValue"})
 public class Controller {
   @FXML
-  private WebView webView;
-  private WebEngine engine;
-
+  private TabPane tabPane;
   @FXML
   private Button reloadButton;
+  @FXML
+  private Button addTabButton;
 
   private Stage primaryStage;
 
@@ -30,26 +33,75 @@ public class Controller {
 
   @FXML
   public void initialize() {
-    engine = webView.getEngine();
-    engine.setUserAgent(headers("User-Agent"));
-    engine.setJavaScriptEnabled(Boolean.parseBoolean(headers("SetJavaScriptEnabled")));
-
-    welcomeScreen();
+    addNewTab("welcome.html");
     addHoverEffect(reloadButton);
+    addHoverEffect(addTabButton);
+    setupKeyboardShortcuts();
+  }
 
-    engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-      if (newState == javafx.concurrent.Worker.State.FAILED) loadNotFoundPage();
-      else if (newState == javafx.concurrent.Worker.State.RUNNING) setReloadButtonToStop();
-      else if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
-        setReloadButtonToReload();
-        updateTitleFromPage();
+  private void setupKeyboardShortcuts() {
+    tabPane.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+      if (event.isControlDown() || event.isMetaDown()) {
+        switch (event.getCode()) {
+          case T:
+            addNewTab("welcome.html");
+            event.consume();
+            break;
+          case R:
+            reloadPage();
+            event.consume();
+            break;
+          case W:
+            closeCurrentTab();
+            event.consume();
+            break;
+          case Q:
+            primaryStage.close();
+            event.consume();
+            break;
+          default:
+            break;
+        }
       }
     });
   }
 
+  private void addNewTab(String url) {
+    WebView webView = new WebView();
+    WebEngine engine = webView.getEngine();
+    engine.setUserAgent(headers("User-Agent"));
+    engine.setJavaScriptEnabled(Boolean.parseBoolean(headers("SetJavaScriptEnabled")));
+    loadPage(engine, url);
+
+    Tab tab = new Tab(url);
+    tab.setContent(webView);
+    tabPane.getTabs().add(tab);
+
+    engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+      if (newState == javafx.concurrent.Worker.State.FAILED) loadNotFoundPage(webView);
+      else if (newState == javafx.concurrent.Worker.State.RUNNING) setReloadButtonToStop();
+      else if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+        setReloadButtonToReload();
+        updateTabTitle(tab, engine);
+      }
+    });
+
+    tabPane.getSelectionModel().select(tab);
+  }
+
+  private void loadPage(WebEngine engine, String url) {
+    try {
+      URL resource = getClass().getClassLoader().getResource(url);
+      if (resource != null) engine.load(resource.toExternalForm());
+      else Handling.resourceNotFound(url);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   public String headers(String header) {
     String[] headers = {
-        "User-Agent", "Mozilla/5.0 {Purrooser Browser: 0.1.0; Java 22; https://github.com/Thoq-jar/Purrooser.git} (Windows NT 10.0; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",
+        "User-Agent", "Mozilla/5.0 {Purrooser Browser: 0.1.0; Java 21 (LTS); https://github.com/Thoq-jar/Purrooser.git} (Windows NT 10.0; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",
         "SetJavaScriptEnabled", String.valueOf(true)
     };
 
@@ -59,20 +111,10 @@ public class Controller {
     return "";
   }
 
-  private void welcomeScreen() {
-    try {
-      URL resource = getClass().getClassLoader().getResource("welcome.html");
-      if (resource != null) engine.load(resource.toExternalForm());
-      else Handling.resourceNotFound("welcome.html");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  private void loadNotFoundPage() {
+  private void loadNotFoundPage(WebView webView) {
     try {
       URL resource = getClass().getClassLoader().getResource("error.html");
-      if (resource != null) engine.load(resource.toExternalForm());
+      if (resource != null) webView.getEngine().load(resource.toExternalForm());
       else Handling.resourceNotFound("error.html");
     } catch (Exception e) {
       e.printStackTrace();
@@ -88,28 +130,63 @@ public class Controller {
   }
 
   @FXML
+  protected void reloadPage() {
+    Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+    if (selectedTab != null) {
+      WebView webView = (WebView) selectedTab.getContent();
+      if (webView != null) webView.getEngine().reload();
+    }
+  }
+
+  @FXML
   protected void goBack() {
-    if (engine.getHistory().getCurrentIndex() > 0) engine.getHistory().go(-1);
+    Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+    if (selectedTab != null) {
+      WebView webView = (WebView) selectedTab.getContent();
+      if (webView != null) {
+        WebEngine engine = webView.getEngine();
+        if (engine.getHistory().getCurrentIndex() > 0) engine.getHistory().go(-1);
+      }
+    }
   }
 
   @FXML
   protected void goForward() {
-    if (engine.getHistory().getCurrentIndex() < engine.getHistory().getEntries().size() - 1) engine.getHistory().go(1);
-  }
-
-  @FXML
-  protected void reloadPage() {
-    if (engine.getLoadWorker().getState() == javafx.concurrent.Worker.State.RUNNING) {
-      engine.load("about:blank");
-      setReloadButtonToReload();
-    } else {
-      engine.reload();
+    Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+    if (selectedTab != null) {
+      WebView webView = (WebView) selectedTab.getContent();
+      if (webView != null) {
+        WebEngine engine = webView.getEngine();
+        if (engine.getHistory().getCurrentIndex() < engine.getHistory().getEntries().size() - 1) {
+          engine.getHistory().go(1);
+        }
+      }
     }
   }
 
   @FXML
   protected void goHome() {
-    welcomeScreen();
+    Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+    if (selectedTab != null) {
+      WebView webView = (WebView) selectedTab.getContent();
+      if (webView != null) {
+        WebEngine engine = webView.getEngine();
+        loadPage(engine, "welcome.html");
+      }
+    }
+  }
+
+  @FXML
+  protected void addTab() {
+    addNewTab("welcome.html");
+  }
+
+  @FXML
+  protected void closeCurrentTab() {
+    Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+    if (selectedTab != null) {
+      tabPane.getTabs().remove(selectedTab);
+    }
   }
 
   private void addHoverEffect(Button button) {
@@ -132,9 +209,14 @@ public class Controller {
     primaryStage.setTitle("Purrooser - " + websiteTitle);
   }
 
-  private void updateTitleFromPage() {
-    engine.executeScript("document.title");
+  @SuppressWarnings("unused")
+  private void updateTitleFromPage(WebEngine engine) {
     String pageTitle = (String) engine.executeScript("document.title");
     updateTitle(pageTitle != null ? pageTitle : "Untitled");
+  }
+
+  private void updateTabTitle(Tab tab, WebEngine engine) {
+    String pageTitle = (String) engine.executeScript("document.title");
+    tab.setText(pageTitle != null ? pageTitle : "Untitled");
   }
 }

@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Start Page</title>
+    <link rel="stylesheet" href="lib/std.css">
     <link rel="stylesheet" href="welcome/welcome.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="welcome/welcome.js"></script>
+    <script src="welcome/welcome.js" type="module"></script>
 </head>
 <body>
 <div class="container no-select">
@@ -16,9 +17,18 @@
         <label for="searchBar">
             <input type="text" id="searchBar" placeholder="Search for anything"/>
         </label>
-        
+
         <button id="searchButton" class="go">Go</button>
     </div>
+</div>
+
+<div class="footer">
+    <h4 class="version-number">0.1.0.22</h4>
+    <h4 class="channel-text">Purrooser Canary</h4>
+    <h4 class="project-link">
+        <span>Project: </span>
+        <a class="link" href="https://github.com/Thoq-jar/Purrooser" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </h4>
 </div>
 </body>
 </html>
