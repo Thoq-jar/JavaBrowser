@@ -25,6 +25,7 @@ public class Controller {
   @FXML
   public void initialize() {
     engine = webView.getEngine();
+    engine.setUserAgent("Mozilla/5.0 {Purrooser Browser: 0.1.0; Java 22; https://github.com/Thoq-jar/Purrooser.git} (Windows NT 10.0; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0");
 
     welcomeScreen();
     addHoverEffect(reloadButton);
