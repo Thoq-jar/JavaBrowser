@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>404 Not Found</title>
-  <link rel="stylesheet" href="./error/error.css">
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" href="error/error.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="error/error.js"></script>
 </head>
 <body>
-<h1>Purrooser couldn't find this page!</h1>
-<h3>Please make sure</h3>
-<ul>
-  <li>You are connected to the internet</li>
-  <li>Purrooser has access to the internet (and is not blocked by a firewall)</li>
-  <li>The website exits (it may have been moved)</li>
+<h1 class="title">Purrooser couldn't find this page!</h1>
+<h3 class="tip-title">Please make sure</h3>
+<ul class="unorded-list">
+    <li class="list-item">You are connected to the internet</li>
+    <li class="list-item">Purrooser has access to the internet (and is not blocked by a firewall)</li>
+    <li class="list-item">The website exits (it may have been moved)</li>
 </ul>
-<p><a href="#" onclick="goHome()">Go Back</a></p>
-<script src="./error/error.js"></script>
+<p><a class="link-button" href="#" onclick="goBack()">Go Back</a></p>
+<p><a class="link-button" href="game.html">Play a game</a></p>
 </body>
 </html>

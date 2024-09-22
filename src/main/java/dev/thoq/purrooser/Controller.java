@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -20,9 +21,15 @@ public class Controller {
   @FXML
   private Button reloadButton;
 
+  private Stage primaryStage;
+
+  public void setPrimaryStage(Stage stage) {
+    this.primaryStage = stage;
+    updateTitle("Home");
+  }
+
   @FXML
   public void initialize() {
-
     engine = webView.getEngine();
     engine.setUserAgent(headers("User-Agent"));
     engine.setJavaScriptEnabled(Boolean.parseBoolean(headers("SetJavaScriptEnabled")));
@@ -33,7 +40,10 @@ public class Controller {
     engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
       if (newState == javafx.concurrent.Worker.State.FAILED) loadNotFoundPage();
       else if (newState == javafx.concurrent.Worker.State.RUNNING) setReloadButtonToStop();
-      else if (newState == javafx.concurrent.Worker.State.SUCCEEDED) setReloadButtonToReload();
+      else if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+        setReloadButtonToReload();
+        updateTitleFromPage();
+      }
     });
   }
 
@@ -43,10 +53,11 @@ public class Controller {
         "SetJavaScriptEnabled", String.valueOf(true)
     };
 
-    for (int i = 0; i < headers.length; i += 2) if (headers[i].equalsIgnoreCase(header)) return headers[i + 1].trim();
+    for (int i = 0; i < headers.length; i += 2) {
+      if (headers[i].equalsIgnoreCase(header)) return headers[i + 1].trim();
+    }
     return "";
   }
-
 
   private void welcomeScreen() {
     try {
@@ -91,7 +102,9 @@ public class Controller {
     if (engine.getLoadWorker().getState() == javafx.concurrent.Worker.State.RUNNING) {
       engine.load("about:blank");
       setReloadButtonToReload();
-    } else engine.reload();
+    } else {
+      engine.reload();
+    }
   }
 
   @FXML
@@ -113,5 +126,15 @@ public class Controller {
       fade.setToValue(1.0);
       fade.play();
     });
+  }
+
+  private void updateTitle(String websiteTitle) {
+    primaryStage.setTitle("Purrooser - " + websiteTitle);
+  }
+
+  private void updateTitleFromPage() {
+    engine.executeScript("document.title");
+    String pageTitle = (String) engine.executeScript("document.title");
+    updateTitle(pageTitle != null ? pageTitle : "Untitled");
   }
 }

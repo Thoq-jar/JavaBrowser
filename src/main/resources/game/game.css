@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #202124;
+  color: #fff;
+  font-family: sans-serif;
+}
+
+.game-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background-color: #202124;
+  overflow: hidden;
+  border-bottom: 5px solid white;
+}
+
+.cat {
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  width: 100px;
+  height: 100px;
+  background-image: url('cat.png');
+  background-size: cover;
+}
+
+.obstacle {
+  position: absolute;
+  bottom: 0;
+  right: -40px;
+  width: 20px;
+  height: 40px;
+  background-color: green;
+}
+
+.score {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+}
+
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: red;
+  display: none;
+}

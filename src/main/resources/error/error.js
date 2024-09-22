@@ -1,3 +1,5 @@
-function goHome() {
-    window.history.back();
+function goBack() {
+    $(document).ready(function () {
+        window.history.back()
+    });
 }

@@ -2,19 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Purrooser Start</title>
-    <link rel="stylesheet" href="./welcome/welcome.css">
+    <title>Start Page</title>
+    <link rel="stylesheet" href="welcome/welcome.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="welcome/welcome.js"></script>
 </head>
 <body>
 <div class="container no-select">
     <h1 class="title">Purrooser</h1>
+
     <div class="search-container">
-        <label for="searchBar"></label><input type="text" id="searchBar" placeholder="Search for anything" />
+        <label for="searchBar">
+            <input type="text" id="searchBar" placeholder="Search for anything"/>
+        </label>
+        
         <button id="searchButton" class="go">Go</button>
     </div>
 </div>
-
-<script src="./welcome/welcome.js"></script>
 </body>
 </html>
