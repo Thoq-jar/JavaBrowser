@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 async function loadScript(url, integrity) {
     const response = await fetch(url);
     const scriptText = await response.text();
@@ -15,5 +17,3 @@ async function loadScript(url, integrity) {
         console.warn(`base64: ${base64Hash} | expected: ${integrity}`)
     }
 }
-
-await loadScript('https://code.jquery.com/jquery-4.0.0-beta.js', 'sxrFXxuY0kAVWIe4oGEKMK3Ww9GRVoB6Z+sAuiT+aEM=')

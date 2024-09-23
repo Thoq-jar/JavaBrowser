@@ -4,13 +4,13 @@ import '../lib/std.js';
 
 const sysLinks = [
     'about',
-    'game',
+    'kitty',
     'error',
     'welcome'
 ];
 
 $(document).ready(function () {
-    $('#searchButton').on('click', function () {
+    $('#searchButton').on('click', () => {
         const query = $('#searchBar').val().trim();
         if (query) {
             if (query.startsWith('purr://')) {
@@ -23,7 +23,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#searchBar').on('keydown', function (event) {
+    $('#searchBar').on('keydown', (event) => {
         if (event.key === 'Enter') $('#searchButton').click();
     });
 
@@ -33,7 +33,7 @@ $(document).ready(function () {
     }
 });
 
-$(document).ready(function () {
+$(document).ready(() => {
     const $body = $('body');
     const $city = $('#city');
     const $temperature = $('#temperature');

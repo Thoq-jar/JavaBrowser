@@ -49,7 +49,8 @@ $(document).ready(function () {
     }
 
     function increaseDifficulty() {
-        if (score % 1 === 0) obstacleSpeed += 1;
+        if (score % 10 === 0 && score !== 0) obstacleSpeed -= 5;
+        else obstacleSpeed += 1;
     }
 
     function collision() {
@@ -64,16 +65,19 @@ $(document).ready(function () {
         return (catBottom >= obstacleTop && catLeft < obstacleRight && catRight > obstacleLeft);
     }
 
-    function jump() {
-        if (!isJumping && !gameOver) {
-            isJumping = true;
-            $cat.animate({bottom: '+=400px'}, 300, () => {
-                $cat.animate({bottom: '-=400px'}, 300, () => {
-                    isJumping = false;
-                });
-            });
-        } else if (gameOver) {
-            startGame();
+    function simulatePhysics(mode) {
+        switch (mode) {
+            case "Jump":
+                if (!isJumping && !gameOver) {
+                    isJumping = true;
+                    $cat.animate({bottom: '+=350px'}, 450, () => {
+                        $cat.animate({bottom: '-=350px'}, 400, () => isJumping = false);
+                    });
+                } else if (gameOver) startGame();
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -85,12 +89,10 @@ $(document).ready(function () {
     }
 
     $(document).keydown((event) => {
-        if (event.key === ' ') jump();
+        if (event.key === ' ') simulatePhysics("Jump");
     });
 
-    $(document).click(() => {
-        jump();
-    });
+    $(document).click(() => simulatePhysics("Jump"));
 
     startGame();
 });
