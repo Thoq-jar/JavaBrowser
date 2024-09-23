@@ -67,8 +67,8 @@ $(document).ready(function () {
     function jump() {
         if (!isJumping && !gameOver) {
             isJumping = true;
-            $cat.animate({bottom: '+=400px'}, 300, function () {
-                $cat.animate({bottom: '-=400px'}, 300, function () {
+            $cat.animate({bottom: '+=400px'}, 300, () => {
+                $cat.animate({bottom: '-=400px'}, 300, () => {
                     isJumping = false;
                 });
             });
@@ -84,11 +84,11 @@ $(document).ready(function () {
         $gameOver.show();
     }
 
-    $(document).keydown(function (event) {
+    $(document).keydown((event) => {
         if (event.key === ' ') jump();
     });
 
-    $(document).click(function () {
+    $(document).click(() => {
         jump();
     });
 

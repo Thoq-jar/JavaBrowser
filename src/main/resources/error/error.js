@@ -2,7 +2,7 @@ import '../lib/std';
 
 // noinspection JSUnusedLocalSymbols
 function goBack() {
-    $(document).ready(function () {
+    $(document).ready(() => {
         window.history.back()
     });
 }

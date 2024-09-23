@@ -70,7 +70,7 @@ public class Controller {
     WebView webView = new WebView();
     WebEngine engine = webView.getEngine();
     engine.setUserAgent(headers("User-Agent"));
-    engine.setJavaScriptEnabled(Boolean.parseBoolean(headers("SetJavaScriptEnabled")));
+    engine.setJavaScriptEnabled(true);
     loadPage(engine, url);
 
     Tab tab = new Tab(url);
@@ -101,8 +101,7 @@ public class Controller {
 
   public String headers(String header) {
     String[] headers = {
-        "User-Agent", "Mozilla/5.0 {Purrooser Browser: 0.1.0; Java 21 (LTS); https://github.com/Thoq-jar/Purrooser.git} (Windows NT 10.0; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",
-        "SetJavaScriptEnabled", String.valueOf(true)
+        "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     };
 
     for (int i = 0; i < headers.length; i += 2) {

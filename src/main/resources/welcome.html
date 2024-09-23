@@ -8,25 +8,26 @@
     <script src="welcome/welcome.js" type="module"></script>
 </head>
 <body>
-<div class="container no-select">
+<div class="overlay"></div>
+<div id="weather" class="weather-container">
+    <span id="city"></span>
+    <img id="weather-icon" class="weather-icon" src="" alt="Weather Icon"/>
+    <span id="temperature"></span>
+</div>
+<div id="weather-description" class="weather-description blur-10px"></div>
+
+<div class="no-select">
     <h1 class="title">Purrooser</h1>
-
-    <div class="search-container">
-        <label for="searchBar">
-            <input type="text" id="searchBar" placeholder="Search for anything"/>
-        </label>
-
-        <button id="searchButton" class="go">Go</button>
-    </div>
 </div>
 
-<div class="footer">
-    <h4 class="version-number">0.1.0.22</h4>
-    <h4 class="channel-text">Purrooser Canary</h4>
-    <h4 class="project-link">
-        <span>Project: </span>
-        <a class="link" href="https://github.com/Thoq-jar/Purrooser" target="_blank" rel="noopener noreferrer">GitHub</a>
-    </h4>
+<div class="container no-select">
+    <div class="search-container" id="searchContainer">
+        <label for="searchBar" class="search-bar">
+            <input type="text" id="searchBar" class="blur-10px" placeholder="Search for anything..."/>
+        </label>
+
+        <button id="searchButton" class="go blur-10px">Go</button>
+    </div>
 </div>
 </body>
 </html>
