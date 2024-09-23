@@ -12,7 +12,7 @@ async function loadScript(url, integrity) {
         console.log("Script loaded and integrity matched!");
     } else {
         console.error("Integrity check failed!");
-        console.log(`base64: ${base64Hash} | expected: ${integrity}`)
+        console.warn(`base64: ${base64Hash} | expected: ${integrity}`)
     }
 }
 
