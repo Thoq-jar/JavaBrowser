@@ -6,7 +6,8 @@ const sysLinks = [
     'about',
     'kitty',
     'error',
-    'welcome'
+    'welcome',
+    'settings'
 ];
 
 $(document).ready(function () {
